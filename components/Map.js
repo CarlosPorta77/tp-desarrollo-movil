@@ -4,14 +4,24 @@ import { Constants, MapView, Location, Permissions } from 'expo'
 import { Ionicons } from '@expo/vector-icons'
 export default class Map extends React.Component {
   state = {
-    mapRegion: null,
+    mapRegion: {
+      latitude: -34.59604245725726,
+      longitude: -58.435411420148554,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    },
     hasLocationPermissions: false,
-    locationResult: null,
+    locationResult: {
+      latitude: -34.59604245725726,
+      longitude: -58.435411420148554,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    },
     toggleLocationEnabled: false,
     coords: {},
   }
 
-  location = Location.watchPositionAsync({}, position => {
+  _location = Location.watchPositionAsync({}, position => {
     console.warn(position)
     this.setState(state => {
       return {
@@ -19,8 +29,8 @@ export default class Map extends React.Component {
         coords: position,
         mapRegion: {
           ...state.mapRegion,
-          latitude: position.latitude,
-          longitude: position.longitude,
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
         },
       }
     })
@@ -32,8 +42,8 @@ export default class Map extends React.Component {
     })
 
     if (this.state.toggleLocationEnabled) {
-      this._getLocationAsync()
-      console.warn('pase por aca')
+      //this._getLocationAsync()
+      //  console.warn('pase por aca')
     }
 
     //console.warn(this.state.toggleLocationEnabled);
@@ -49,14 +59,14 @@ export default class Map extends React.Component {
       this.setState({ hasLocationPermissions: true })
     }
 
-    let location = await Location.getCurrentPositionAsync({})
-    this.setState({ locationResult: JSON.stringify(location) })
+    let location2 = await Location.getCurrentPositionAsync({})
+    this.setState({ locationResult: JSON.stringify(location2) })
 
     // Center the map on the location we just fetched.
     this.setState({
       mapRegion: {
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
+        latitude: location2.coords.latitude,
+        longitude: location2.coords.longitude,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       },
