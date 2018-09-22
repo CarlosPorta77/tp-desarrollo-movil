@@ -18,6 +18,7 @@ export default class App extends React.Component {
       <View style={styles.container}>
         <Map onLocationChange={this.handleLocationChange} />
         {/* <Camera onPictureTake={this.handlePictureTake} /> */}
+        
       </View>
     )
   }
@@ -29,5 +30,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  ButtonGeo: {
+    flexDirection: 'row',
+    alignItems:'center',
+    justifyContent: 'space-evenly',
+    marginVertical: 400,
+    backgroundColor: '#ddd',
   },
 })

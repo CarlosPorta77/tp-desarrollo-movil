@@ -1,6 +1,8 @@
 import React from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { Text, View, StyleSheet, Button, TouchableOpacity } from 'react-native';
 import { Constants, MapView, Location, Permissions } from 'expo';
+import { Ionicons } from '@expo/vector-icons';
+
 
 export default class Map extends React.Component {
 
@@ -10,7 +12,9 @@ export default class Map extends React.Component {
         locationResult: null
       };
 
-      _onPressGeo = ()=> {Console.log("HOLA")}
+      _onPressGeo = ()=> {
+        alert.alert("Hola")
+      }
 
       componentDidMount() {
         this._getLocationAsync();
@@ -53,7 +57,17 @@ export default class Map extends React.Component {
                  <Text>Map region doesn't exist.</Text> :
                 <MapView style={ StyleSheet.absoluteFill }
                 region={this.state.mapRegion}>
-                <Button style= {styles.ButtonGeo} title="Geo" onPress={this._onPressGeo}/>
+
+                     <View style={styles.container}>
+  
+                {/* <Button style={styles.ButtonGeo}   color="#841584"
+ title="Activar Posición" onPress={this._onPressGeo}/> */}
+
+               <TouchableOpacity style={styles.ButtonGeo} onPress={() => {}} >
+                  <Text style={styles.Icono}>      <Ionicons name="ios-locate-outline" size={64} color="blue" /></Text>
+                </TouchableOpacity>
+
+              </View>
 
                 </MapView>
                         
@@ -66,6 +80,11 @@ export default class Map extends React.Component {
     }
     
     const styles = StyleSheet.create({
+      container: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+      },
       paragraph: {
         margin: 24,
         fontSize: 18,
@@ -73,7 +92,17 @@ export default class Map extends React.Component {
         textAlign: 'center',
         color: 'green',
       },
+     
       ButtonGeo: {
-        alignItems:'center'
+        flexDirection: 'column',
+        alignItems:'flex-end',
+        justifyContent: 'flex-end',
+        marginVertical: 40,
+        marginRight: 40,
+      },
+      Icono: {
+        fontSize: 64,
       }
+
+
     });
