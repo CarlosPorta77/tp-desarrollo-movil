@@ -68,11 +68,11 @@ export default class Map extends React.Component {
               <Text>Map region doesn't exist.</Text> :
               <MapView style={ StyleSheet.absoluteFill }
                 region={this.state.mapRegion}>
-                <View style={styles.container}>
+                {/* <View style={styles.container}> */}
                   <TouchableOpacity style={styles.ButtonGeo} onPress={this._handleClickGeolocation} >
                     <Text style={styles.Icono}>      <Ionicons name="ios-locate-outline" size={64} color="blue" /></Text>
                   </TouchableOpacity>
-                </View>
+                {/* </View> */}
               </MapView>
             }
           </View>          
@@ -85,6 +85,7 @@ export default class Map extends React.Component {
         flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'flex-end',
+        ...StyleSheet.absoluteFillObject,
       },
       paragraph: {
         margin: 24,
@@ -95,10 +96,13 @@ export default class Map extends React.Component {
       },
      
       ButtonGeo: {
+        position:"absolute",
+        bottom:10,
+        right:10,
         flexDirection: 'column',
         alignItems:'flex-end',
         justifyContent: 'flex-end',
-        marginVertical: 40,
+        
         marginRight: 40,
       },
       Icono: {
