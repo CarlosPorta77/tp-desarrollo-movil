@@ -17,12 +17,11 @@ export default class Map extends React.Component {
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
     },
-    toggleLocationEnabled: false,
+    toggleLocationEnabled: true,
     coords: {},
   }
 
-  _location = Location.watchPositionAsync({}, position => {
-    console.warn(position)
+  positionCallback = position => {
     this.setState(state => {
       return {
         ...state,
@@ -34,19 +33,25 @@ export default class Map extends React.Component {
         },
       }
     })
-  })
+  }
+
+  _location = Location.watchPositionAsync({}, this.positionCallback)
 
   _handleClickGeolocation = () => {
-    this.setState(state => {
-      return { toggleLocationEnabled: !state.toggleLocationEnabled }
-    })
+    this._getLocationAsync()
+  }
 
+  _handleClickToggleFollowLocation = () => {
+    console.warn(this.state.toggleLocationEnabled)
     if (this.state.toggleLocationEnabled) {
-      //this._getLocationAsync()
-      //  console.warn('pase por aca')
+      this._location.remove(this.positionCallback)
+    } else {
+      _location = Location.watchPositionAsync({}, this.positionCallback)
     }
 
-    //console.warn(this.state.toggleLocationEnabled);
+    this.setState(state => {
+      return { toggleLocationEnabled: !this.state.toggleLocationEnabled }
+    })
   }
 
   _getLocationAsync = async () => {
@@ -77,6 +82,10 @@ export default class Map extends React.Component {
     this._getLocationAsync()
   }
 
+  componentWillUnmount() {
+    this._location.remove(this.positionCallback)
+  }
+
   render() {
     return (
       <View style={StyleSheet.absoluteFill}>
@@ -89,7 +98,7 @@ export default class Map extends React.Component {
         ) : (
           <MapView style={StyleSheet.absoluteFill} region={this.state.mapRegion} showsUserLocation={true}>
             {/* <View style={styles.container}> */}
-            <TouchableOpacity style={styles.ButtonGeo} onPress={this._handleClickGeolocation}>
+            <TouchableOpacity style={styles.ButtonGeo} onPress={this._handleClickToggleFollowLocation}>
               <Text style={styles.Icono}>
                 {' '}
                 <Ionicons name="ios-locate-outline" size={64} color="blue" />
